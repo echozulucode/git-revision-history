@@ -2,7 +2,7 @@ use std::path::Path;
 use std::fs;
 use context_core::{generate_context, call_ollama, read_file_content, list_git_refs, list_ollama_models};
 use tauri::{AppHandle, Emitter, Window, Manager};
-use tauri::path::BaseDirectory;
+use tauri::menu::{Menu, MenuItem, Submenu, AboutMetadata};
 
 const DEFAULT_PROMPT: &str = r#"# Role
 You are an expert Technical Product Manager and Strategic Communications Lead. Your goal is to draft clean, professional, and transparent release notes that balance user engagement with risk management.
@@ -30,6 +30,12 @@ fn ensure_templates_dir(app: &AppHandle) -> Result<std::path::PathBuf, String> {
     }
 
     Ok(templates_dir)
+}
+
+fn open_templates_folder(app: &AppHandle) {
+    if let Ok(path) = ensure_templates_dir(app) {
+        let _ = open::that(path);
+    }
 }
 
 #[tauri::command]
@@ -107,6 +113,61 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_fs::init())
+        .plugin(tauri_plugin_store::Builder::default().build())
+        .setup(|app| {
+            let handle = app.handle();
+            
+            // File Menu
+            let open_repo = MenuItem::with_id(handle, "menu-open-repo", "&Open Repository...", true, Some("CmdOrCtrl+O"))?;
+            let open_templates = MenuItem::with_id(handle, "menu-open-templates", "Open &Templates Folder", true, None::<&str>)?;
+            let quit = MenuItem::with_id(handle, "quit", "&Quit", true, Some("CmdOrCtrl+Q"))?;
+            let file_menu = Submenu::with_items(handle, "File", true, &[
+                &open_repo,
+                &open_templates,
+                &MenuItem::with_id(handle, "separator", "-", true, None::<&str>)?, // Separator
+                &quit
+            ])?;
+
+            // Edit Menu
+            let edit_menu = Submenu::with_items(handle, "Edit", true, &[
+                &MenuItem::with_id(handle, "undo", "Undo", true, Some("CmdOrCtrl+Z"))?,
+                &MenuItem::with_id(handle, "redo", "Redo", true, Some("CmdOrCtrl+Shift+Z"))?,
+                &MenuItem::with_id(handle, "cut", "Cut", true, Some("CmdOrCtrl+X"))?,
+                &MenuItem::with_id(handle, "copy", "Copy", true, Some("CmdOrCtrl+C"))?,
+                &MenuItem::with_id(handle, "paste", "Paste", true, Some("CmdOrCtrl+V"))?,
+                &MenuItem::with_id(handle, "select_all", "Select All", true, Some("CmdOrCtrl+A"))?,
+            ])?;
+
+            // Help Menu
+            let about = MenuItem::with_id(handle, "about", "About GitScribe", true, None::<&str>)?;
+            let help_menu = Submenu::with_items(handle, "Help", true, &[&about])?;
+
+            let menu = Menu::with_items(handle, &[&file_menu, &edit_menu, &help_menu])?;
+            app.set_menu(menu)?;
+
+            Ok(())
+        })
+        .on_menu_event(|app, event| {
+            match event.id().as_ref() {
+                "menu-open-templates" => {
+                    open_templates_folder(app);
+                }
+                "menu-open-repo" => {
+                    let _ = app.emit("request-open-repo", ());
+                }
+                "quit" => {
+                    std::process::exit(0);
+                }
+                "about" => {
+                    // In a real app we might open a custom window or use native about
+                    // Tauri v2's AboutMetadata is mostly for macOS app menu, 
+                    // here we'll just trigger a dialog via frontend or keep it simple.
+                    // For MVP, we can emit an event to show a modal in React.
+                    let _ = app.emit("request-show-about", ());
+                }
+                _ => {}
+            }
+        })
         .invoke_handler(tauri::generate_handler![
             generate_preview_cmd, 
             generate_ai_cmd, 

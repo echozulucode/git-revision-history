@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react";
-import { FolderOpen, Play, Loader2, FileText, Upload, Copy, Bot, RefreshCw, WifiOff, Wifi, Settings } from "lucide-react";
+import { FolderOpen, Play, Loader2, FileText, Upload, Copy, Bot, RefreshCw, WifiOff, Settings } from "lucide-react";
 import { invoke } from "@tauri-apps/api/core";
 import { open } from "@tauri-apps/plugin-dialog";
 import { listen } from "@tauri-apps/api/event";
+import { LazyStore } from "@tauri-apps/plugin-store";
 import "./App.css";
+
+// Initialize store outside component to avoid re-creation
+const store = new LazyStore("settings.dat");
 
 function App() {
   const [repoPath, setRepoPath] = useState<string>("");
@@ -25,10 +29,27 @@ function App() {
   const [selectedTemplate, setSelectedTemplate] = useState<string>("");
   const [systemPrompt, setSystemPrompt] = useState<string>("");
 
+  // Load settings on startup
   useEffect(() => {
+    const loadSettings = async () => {
+      const savedRepoPath = await store.get("repoPath");
+      if (savedRepoPath) setRepoPath(savedRepoPath as string);
+      
+      const savedModel = await store.get("model");
+      if (savedModel) setModel(savedModel as string);
+
+      const savedTemplate = await store.get("selectedTemplate");
+      if (savedTemplate) setSelectedTemplate(savedTemplate as string);
+    };
+    loadSettings();
     checkOllama();
     loadTemplates();
   }, []);
+
+  // Save settings on change
+  useEffect(() => { store.set("repoPath", repoPath); }, [repoPath]);
+  useEffect(() => { store.set("model", model); }, [model]);
+  useEffect(() => { store.set("selectedTemplate", selectedTemplate); }, [selectedTemplate]);
 
   // When template changes, load content
   useEffect(() => {
@@ -125,6 +146,21 @@ function App() {
     }
   }, [repoPath, startRef, endRef, notes, activeTab]);
 
+  // System Event Listeners
+  useEffect(() => {
+    const unlistenRepo = listen("request-open-repo", () => {
+        handleOpenRepo();
+    });
+    const unlistenAbout = listen("request-show-about", () => {
+        alert("GitScribe v0.1.0\n\nYour AI-Powered Release Note Assistant.");
+    });
+
+    return () => {
+        unlistenRepo.then(f => f());
+        unlistenAbout.then(f => f());
+    };
+  }, []);
+
   // Streaming Listener
   useEffect(() => {
     const unlisten = listen<string>("ai-token", (event) => {
@@ -176,6 +212,17 @@ function App() {
         }
     }
   };
+
+  // Handle Ctrl+Enter for Generate
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
+        handleGenerate();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleGenerate]); // Depend on handleGenerate to ensure it's up-to-date
 
   return (
     <div className="flex h-screen w-screen bg-white text-slate-900 font-sans overflow-hidden">

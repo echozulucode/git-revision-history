@@ -1,12 +1,12 @@
 [package]
-name = "context_gui"
+name = "gitscribe"
 version = "0.1.0"
 description = "A Tauri App for Release Context Generation"
 authors = ["you"]
 edition = "2021"
 
 [lib]
-name = "context_gui_lib"
+name = "gitscribe_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]
@@ -21,3 +21,5 @@ anyhow = "1.0"
 context_core = { path = "../../../crates/context_core" }
 tauri-plugin-dialog = "2.4.2"
 tauri-plugin-fs = "2.4.4"
+open = "5.3.3"
+tauri-plugin-store = "2.4.1"
