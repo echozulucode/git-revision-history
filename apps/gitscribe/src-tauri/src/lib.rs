@@ -3,7 +3,7 @@ use std::fs;
 use context_core::{generate_context, call_ollama, read_file_content, list_git_refs, list_ollama_models};
 use context_core::jira::JiraConfig;
 use tauri::{AppHandle, Emitter, Window, Manager};
-use tauri::menu::{Menu, MenuItem, Submenu};
+use tauri::menu::{Menu, MenuItem, PredefinedMenuItem, Submenu};
 
 const DEFAULT_PROMPT: &str = r#"# Role
 You are an expert Technical Product Manager and Strategic Communications Lead. Your goal is to draft clean, professional, and transparent release notes that balance user engagement with risk management.
@@ -160,11 +160,13 @@ pub fn run() {
             // File Menu
             let open_repo = MenuItem::with_id(handle, "menu-open-repo", "&Open Repository...", true, Some("CmdOrCtrl+O"))?;
             let open_templates = MenuItem::with_id(handle, "menu-open-templates", "Open &Templates Folder", true, None::<&str>)?;
+            // Separator (predefined menu item)
+            let sep = PredefinedMenuItem::separator(app)?;
             let quit = MenuItem::with_id(handle, "quit", "&Quit", true, Some("CmdOrCtrl+Q"))?;
             let file_menu = Submenu::with_items(handle, "File", true, &[
                 &open_repo,
                 &open_templates,
-                &MenuItem::with_id(handle, "separator", "-", true, None::<&str>)?, // Separator
+                &sep as &_,         // separator
                 &quit
             ])?;
 
