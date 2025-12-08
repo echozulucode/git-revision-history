@@ -1,111 +1,57 @@
-# Git Release Context Generator
+# GitScribe
 
-A CLI tool designed to aggregate git history, code diffs, and strategic user notes into a single, structured Markdown file (`release_context.md`). This output is optimized for consumption by AI models (LLMs) to generate high-quality, customer-facing release notes.
+**GitScribe** is an intelligent release notes generator that bridges the gap between raw git history and customer-facing communication. It aggregates commit logs, code diffs, and strategic user notes, then leverages local AI (Ollama) to draft professional, structured release notes.
 
-## Features
+Available as a modern Desktop GUI and a high-performance CLI tool.
 
-- **Commit Logs:** Extracts clean commit messages between two git references.
-- **Smart Diffs:** Includes code changes while automatically excluding "noise" files (lockfiles, binaries, assets).
-- **Adhoc Notes:** Injects high-level strategic context or marketing points provided by the user.
-- **AI-Ready:** Formats output with clear headers and code blocks for optimal LLM processing.
+## 🚀 Features
 
-## Implementations
+- **Automated Context Aggregation:** Intelligently combines git history and diffs while excluding noise (lockfiles, assets).
+- **AI-Powered Generation:** Connects directly to local LLMs (via Ollama) to write the notes for you.
+- **Strategic Input:** Prioritizes your "Adhoc Notes" to ensure the narrative matches your product goals.
+- **Jira Integration:** (Optional) Enriches context by fetching details from linked Jira tickets found in commit messages.
+- **Cross-Platform:** Runs on Windows, macOS, and Linux.
 
-This repository contains two implementations of the tool:
-1. **Python** (Script-based, no compilation needed)
-2. **Rust** (Compiled binary, high performance)
+## 📦 Components
 
----
+This repository is organized as a Rust Workspace containing:
 
-### 🐍 Python Version
+1.  **Desktop App (`apps/gitscribe`):** A Tauri + React application for a visual, interactive workflow.
+2.  **CLI Tool (`crates/context_cli`):** A binary for command-line usage and CI/CD automation.
+3.  **Core Library (`crates/context_core`):** Shared logic for git operations and AI integration.
 
-#### Prerequisites
-- Python 3.x
-- Git installed and in PATH
+## 🛠️ Quick Start
 
-#### Usage
-Run the script directly from the project root:
+### Option 1: Desktop GUI (Windows)
 
-```bash
-python src/generate_context.py --start <START_HASH> --end <END_HASH> [OPTIONS]
-```
+1.  Download the latest installer (`.exe`) from the [Releases](#) page.
+2.  Run the installer and launch **GitScribe**.
+3.  Ensure [Ollama](https://ollama.com/) is installed and running (`ollama serve`).
 
-**Example:**
-```bash
-python src/generate_context.py --start HEAD~5 --end HEAD --notes docs/strategic-notes.md
-```
+### Option 2: CLI (Build from Source)
 
----
-
-### 🦀 Rust Version
-
-#### Prerequisites
-- Rust & Cargo (latest stable)
-- Git installed and in PATH
-
-#### Build & Run
-
-1. **Build the release binary:**
-   ```bash
-   cd rust-context-gen
-   cargo build --release
-   cd ..
-   ```
-
-2. **Run the binary:**
-   ```bash
-   ./rust-context-gen/target/release/rust-context-gen --start <START_HASH> --end <END_HASH> [OPTIONS]
-   ```
-
-### Advanced Features (Rust Only)
-
-The Rust implementation supports direct integration with AI workflows.
-
-#### 1. Manual Prompt Injection
-Automatically prepend a system prompt (e.g., your "Role" and "Instructions") to the generated context. This creates a single file ready to copy-paste into ChatGPT or Claude.
+**Prerequisites:** Rust (Cargo) & Git.
 
 ```bash
-./rust-context-gen ... --system-prompt docs/ai/release-notes-prompt.md --output full_prompt.md
+# Build the CLI tool
+cargo build --release -p context_cli
+
+# Run the binary
+./target/release/context_cli --start HEAD~5 --end HEAD --ollama-model llama3
 ```
 
-#### 2. Ollama Integration (Auto-Generate)
-Directly generate release notes using a local Ollama instance.
+## 📚 Documentation
 
-```bash
-./rust-context-gen ... --ollama-model llama3 --system-prompt docs/ai/release-notes-prompt.md --output release_notes.md
-```
+- **[User Guide](docs/USER_GUIDE.md):** Detailed instructions for GUI and CLI usage.
+- **[Feature Specifications](docs/features/):** BDD feature files describing system behavior.
+- **[Architecture Plans](docs/ai/):** High-level design and implementation notes.
 
----
+## 🤝 Contributing
 
-## CLI Arguments
+This project uses a **Docs-as-Code** approach.
+- Feature requirements are defined in `docs/features/*.feature`.
+- Please run tests before submitting PRs: `npm test` (Frontend) and `cargo test` (Backend).
 
-| Argument | Required | Description | Default | Supported In |
-|----------|:--------:|-------------|---------|:------------:|
-| `--start` | Yes | Starting commit hash (exclusive). | - | Both |
-| `--end` | Yes | Ending commit hash (inclusive). | - | Both |
-| `--notes` | No | Path to adhoc notes file. | None | Both |
-| `--output` | No | Output filename. | `release_context.md` | Both |
-| `--system-prompt` | No | Prepend a prompt file to the context. | None | **Rust** |
-| `--ollama-model` | No | Trigger auto-generation using this model name. | None | **Rust** |
-| `--ollama-url` | No | Custom Ollama API URL. | `http://localhost:11434...` | **Rust** |
+## 📄 License
 
-## Output Format
-
-The generated file follows this structure:
-
-```markdown
-# Release Context
-
-## Strategic Context / Adhoc Notes
-(Content from your notes file)
-
-## Commit History
-- feat: added new login screen
-- fix: resolved database deadlock
-
-## Code Changes
-```diff
-diff --git a/src/main.rs b/src/main.rs
-...
-```
-```
+[MIT License](LICENSE)
