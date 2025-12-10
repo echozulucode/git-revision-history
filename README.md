@@ -4,7 +4,7 @@
 
 Available as a modern Desktop GUI and a high-performance CLI tool.
 
-## 🚀 Features
+## Features
 
 - **Automated Context Aggregation:** Intelligently combines git history and diffs while excluding noise (lockfiles, assets).
 - **AI-Powered Generation:** Connects directly to local LLMs (via Ollama) to write the notes for you.
@@ -12,7 +12,7 @@ Available as a modern Desktop GUI and a high-performance CLI tool.
 - **Jira Integration:** (Optional) Enriches context by fetching details (summaries, descriptions, comments) from linked Jira tickets found in commit messages.
 - **Cross-Platform:** Runs on Windows, macOS, and Linux.
 
-## 📦 Components
+## Components
 
 This repository is organized as a Rust Workspace containing:
 
@@ -20,7 +20,7 @@ This repository is organized as a Rust Workspace containing:
 2.  **CLI Tool (`crates/gitscribe_cli`):** A binary for command-line usage and CI/CD automation.
 3.  **Core Library (`crates/gitscribe_core`):** Shared logic for git operations, Jira fetching, and AI integration.
 
-## 🛠️ Development & Setup
+## Development & Setup
 
 Follow these steps to get started after cloning the repository.
 
@@ -65,18 +65,18 @@ npm run tauri dev
 npm run tauri build
 ```
 
-## 📚 Documentation
+## Documentation
 
 - **[User Guide](docs/USER_GUIDE.md):** Detailed instructions for GUI and CLI usage.
 - **[Feature Specifications](docs/features/):** BDD feature files describing system behavior.
 - **[Architecture Plans](docs/ai/):** High-level design and implementation notes.
 
-## 🤝 Contributing
+## Contributing
 
 This project uses a **Docs-as-Code** approach.
 - Feature requirements are defined in `docs/features/*.feature`.
 - Please run tests before submitting PRs: `npm test` (Frontend) and `cargo test` (Backend).
 
-## 📄 License
+## License
 
 [MIT License](LICENSE)

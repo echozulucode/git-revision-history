@@ -3,6 +3,7 @@
 Thank you for your interest in contributing! This document provides guidelines for contributing to the project.
 
 ## Table of Contents
+
 - [Code of Conduct](#code-of-conduct)
 - [Getting Started](#getting-started)
 - [Development Setup](#development-setup)
@@ -24,11 +25,13 @@ This project adheres to a code of conduct. By participating, you are expected to
 ## Development Setup
 
 ### Prerequisites
+
 - Rust (latest stable) - Install from [rustup.rs](https://rustup.rs/)
 - Node.js 20+ - For Tauri frontend
 - Git
 
 ### Rust Workspace Setup
+
 ```bash
 # Install dependencies and build
 cargo build --workspace
@@ -44,6 +47,7 @@ cargo fmt --all
 ```
 
 ### Tauri App Setup
+
 ```bash
 cd apps/gitscribe
 
@@ -58,12 +62,13 @@ npm run tauri build
 ```
 
 ### CLI Tool Setup
+
 ```bash
 # Build the CLI
-cargo build --package context_cli --release
+cargo build --package gitscribe_cli --release
 
 # Run the CLI
-./target/release/context_cli --help
+./target/release/gitscribe_cli --help
 ```
 
 ## Making Changes
@@ -88,6 +93,7 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/):
 ```
 
 **Types:**
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation changes
@@ -100,6 +106,7 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/):
 - `chore`: Other changes
 
 **Examples:**
+
 ```
 feat(cli): add --verbose flag for detailed output
 fix(core): resolve panic when parsing invalid git refs
@@ -109,18 +116,20 @@ docs: update installation instructions
 ## Testing
 
 ### Rust Tests
+
 ```bash
 # Run all workspace tests
 cargo test --workspace
 
 # Run tests for specific crate
-cargo test --package context_core
+cargo test --package gitscribe_core
 
 # Run tests with output
 cargo test --workspace -- --nocapture
 ```
 
 ### Frontend Tests
+
 ```bash
 cd apps/gitscribe
 
@@ -132,6 +141,7 @@ npm run test:e2e
 ```
 
 ### Integration Tests
+
 ```bash
 # Test the full build pipeline
 cargo build --workspace --release
@@ -147,6 +157,7 @@ cd apps/gitscribe && npm run tauri build
 5. Once approved, your PR will be merged
 
 ### PR Checklist
+
 - [ ] Tests pass locally
 - [ ] Code is formatted (`cargo fmt`, `npm run format`)
 - [ ] Lints pass (`cargo clippy`)
@@ -157,6 +168,7 @@ cd apps/gitscribe && npm run tauri build
 ## Code Style
 
 ### Rust
+
 - Follow [Rust API Guidelines](https://rust-lang.github.io/api-guidelines/)
 - Use `cargo fmt` for formatting
 - Address all `cargo clippy` warnings
@@ -164,12 +176,14 @@ cd apps/gitscribe && npm run tauri build
 - Keep functions focused and small
 
 ### TypeScript/React
+
 - Use TypeScript for all new code
 - Follow React best practices
 - Use functional components and hooks
 - Keep components small and focused
 
 ### General
+
 - Write clear, descriptive variable names
 - Comment complex logic
 - Keep lines under 100 characters when reasonable
@@ -184,8 +198,8 @@ cd apps/gitscribe && npm run tauri build
 │       ├── src/            # React frontend
 │       └── src-tauri/      # Rust backend
 ├── crates/
-│   ├── context_core/       # Core library
-│   └── context_cli/        # CLI tool
+│   ├── gitscribe_core/       # Core library
+│   └── gitscribe_cli/        # CLI tool
 └── src/                    # Legacy Python implementation
 ```
 
@@ -199,4 +213,4 @@ cd apps/gitscribe && npm run tauri build
 
 By contributing, you agree that your contributions will be licensed under the same license as the project.
 
-Thank you for contributing! 🎉
+Thank you for contributing!

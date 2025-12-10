@@ -1,6 +1,6 @@
 # GitHub Actions - Quick Reference
 
-## 🎯 The Essentials
+## The Essentials
 
 This repository uses **2 simple workflows** that cover everything you need:
 
@@ -29,7 +29,7 @@ This repository uses **2 simple workflows** that cover everything you need:
 ✓ Create draft release with all installers
 ```
 
-## 🚀 Usage
+## Usage
 
 ### Testing your code
 ```bash
@@ -47,27 +47,27 @@ git push --tags
 # Check GitHub Releases for draft release
 ```
 
-## 📊 Monitoring
+## Monitoring
 
 - **View workflow runs:** `https://github.com/YOUR_USERNAME/YOUR_REPO/actions`
 - **Download artifacts:** Available on each CI run for testing
 - **Release drafts:** Edit and publish in the Releases section
 
-## 📁 Additional Files
+## Additional Files
 
 - **`dependabot.yml`** - Auto-updates dependencies weekly
 - **`CONTRIBUTING.md`** - How to contribute
 - **`PULL_REQUEST_TEMPLATE.md`** - Standard PR format
 - **`ISSUE_TEMPLATE/`** - Bug and feature request templates
 
-## ❓ Why So Simple?
+## Why So Simple?
 
 Many projects add workflows for coverage, E2E tests, PR linting, etc. But:
 - **You can add those later** when you actually need them
 - **Simpler = easier to maintain** and understand
 - **These 2 workflows cover 90% of needs** for most Rust/Tauri projects
 
-## 🔧 Need More?
+## Need More?
 
 Check out these optional additions:
 - **Code Coverage:** `cargo-llvm-cov` + Codecov

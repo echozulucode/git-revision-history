@@ -325,29 +325,29 @@ When listing a security fix, use the **CVE (Common Vulnerabilities and Exposures
 Release Date: YYYY-MM-DD  
 Severity: \[Critical/High/Medium/Low\]
 
-## **🚀 Executive Summary**
+## **Executive Summary**
 
 \[2-3 sentences describing the high-level value of this release.\]
 
-## **✨ New Features**
+## **New Features**
 
 * **Feature A:** Description of value.  
 * **Feature B:** Description of value.
 
-## **🐛 Bug Fixes**
+## **Bug Fixes**
 
 * Fixed a crash in the login flow (Issue \#123).  
 * Resolved rendering artifact in dark mode.
 
-## **🛡️ Security Advisories**
+## **Security Advisories**
 
 * **Critical:** Fixed remote code execution vulnerability (). Update immediately.
 
-## **⚠️ Deprecations & Breaking Changes**
+## **Deprecations & Breaking Changes**
 
 * The v1/api endpoint is deprecated. Please migrate to v2 by.
 
-## **📦 Downloads & Checksums**
+## **Downloads & Checksums**
 
 **Export Control Notice:** This software is subject to U.S. EAR. Diversion contrary to U.S. law is prohibited.
 

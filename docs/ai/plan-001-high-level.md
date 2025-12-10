@@ -46,9 +46,9 @@ Analyze the provided input and generate a release notes summary. You must adhere
     - _Good:_ "Users can now set a Preferred Name in their profile settings."
 3.  **Prioritize Adhoc Notes:** If I have included specific instructions or high-level summaries in the "Adhoc Notes" section, these take precedence over the raw diffs. Use the diffs to flesh out the details of those notes.
 4.  **Categorization:** Group the notes into these headers:
-    - 🚀 **New Features** (Significant additions)
-    - ✨ **Improvements** (Tweaks to existing features, performance upgrades)
-    - 🐛 **Bug Fixes** (Corrections to broken behavior)
+    - **New Features** (Significant additions)
+    - **Improvements** (Tweaks to existing features, performance upgrades)
+    - **Bug Fixes** (Corrections to broken behavior)
 5.  **Tone:** Professional, concise, and encouraging. Avoid passive voice.
 
 # Output Format
@@ -61,15 +61,15 @@ Please output the release notes in the following Markdown structure:
 
 (A 2-3 sentence summary of the main theme of this release).
 
-### 🚀 New Features
+### New Features
 
 - **[Feature Name]:** [Description of value]
 
-### ✨ Improvements
+### Improvements
 
 - **[Improvement]:** [Description]
 
-### 🐛 Bug Fixes
+### Bug Fixes
 
 - [Description of fix]
 

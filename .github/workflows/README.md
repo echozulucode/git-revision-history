@@ -4,7 +4,7 @@ This directory contains CI/CD workflows for the Git Release Context Generator pr
 
 ## Workflows Overview
 
-### 🔍 CI (`ci.yml`)
+### CI (`ci.yml`)
 **Trigger:** Push to `main`/`develop`, Pull Requests
 
 The main workflow that runs on every push and PR:
@@ -24,7 +24,7 @@ The main workflow that runs on every push and PR:
 - Parallel execution of tests and builds
 - Artifact uploads for testing installers before release
 
-### 🚀 Release (`release.yml`)
+### Release (`release.yml`)
 **Trigger:** Git tags matching `v*.*.*` (e.g., v1.0.0)
 
 Automated release process:
