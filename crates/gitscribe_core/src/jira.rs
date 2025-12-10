@@ -99,7 +99,12 @@ pub async fn fetch_issue(
                         let comments = api_resp
                             .fields
                             .comment
-                            .map(|c| c.comments.into_iter().map(|ic| (ic.body, ic.updated)).collect())
+                            .map(|c| {
+                                c.comments
+                                    .into_iter()
+                                    .map(|ic| (ic.body, ic.updated))
+                                    .collect()
+                            })
                             .unwrap_or_default();
 
                         Ok(Some(JiraIssue {
